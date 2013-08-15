@@ -21,21 +21,21 @@
 <div class="selectedFiles">
 	<?php
 	if (!empty($_POST['ProtectedFile'])) {
-		foreach ($_POST['ProtectedFile'] as $file_id) {?>
-			<input type="hidden" name="ProtectedFile[]" value="<?php echo $file_id?>" />
+		foreach ($_POST['ProtectedFile'] as $scan_id) {?>
+			<input type="hidden" name="ProtectedFile[]" value="<?php echo $scan_id?>" />
 		<?php }
 	}?>
 </div>
 <div class="scan-preview"></div>
-<div class="scan-thumbnails">
-	<?php foreach (ProtectedFile::model()->findAllBySource('Scanner') as $i => $file) {?>
+<div class="scan-thumbnails" id="scan-thumbnails-0">
+	<?php foreach (OphMiScan_Scanned_File::model()->findAllUnusedFiles() as $i => $scan) {?>
 		<?php if ($i >0 && ($i % 6) == 0) {?>
-			</div><div class="scan-thumbnails">
+			</div><div class="scan-thumbnails" id="scan-thumbnails-<?php echo $i?>"<?php if ($i>12) {?> style="display: none;"<?php }?>>
 		<?php }?>
-		<div class="scan-thumbnail<?php if (!empty($_POST['ProtectedFile']) && in_array($file->id,$_POST['ProtectedFile'])) {?> selected<?php }?>">
-			<div class="scan-thumbnail-image" style="background-image:url('<?php echo Yii::app()->createUrl('/file/view/'.$file->id.'/200_60x60/'.$file->name)?>');" data-id="<?php echo $file->id?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$file->id.'/600x800/'.$file->name)?>"></div>
+		<div class="scan-thumbnail<?php if (!empty($_POST['ProtectedFile']) && in_array($scan->id,$_POST['ProtectedFile'])) {?> selected<?php }?>">
+			<div class="scan-thumbnail-image" style="background-image:url('<?php echo Yii::app()->createUrl('/file/view/'.$scan->id.'/200_60x60/'.$scan->file->name)?>');" data-id="<?php echo $scan->id?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->id.'/600x800/'.$scan->file->name)?>"></div>
 			<div class="scan-thumbnail-date">
-				<?php echo date('j M Y H:i',strtotime($file->created_date))?>
+				<?php echo date('j M Y H:i',strtotime($scan->created_date))?>
 			</div>
 			<div class="scan-thumbnail-preview-link">
 				<button type="submit" class="classy blue mini preview-thumbnail"><span class="button-span button-span-blue">Preview</span></button>
@@ -74,4 +74,48 @@
 			$('.selectedFiles').append('<input type="hidden" name="ProtectedFile[]" value="'+$(this).attr('data-id')+'" />');
 		}
 	});
+
+	$('div.pagination .page').die('click').live('click',function(e) {
+		e.preventDefault();
+
+		OphMiScan_selectPage($(this).text());
+	});
+
+	$('a.prev').die('click').live('click',function(e) {
+		e.preventDefault();
+
+		var page = parseInt($('div.pagination span.page').text());
+
+		OphMiScan_selectPage(page-1);
+	});
+
+	$('a.next').die('click').live('click',function(e) {
+		e.preventDefault();
+
+		var page = parseInt($('div.pagination span.page').text());
+
+		OphMiScan_selectPage(page+1);
+	});
+
+function OphMiScan_selectPage(page) {
+	$('div.scan-thumbnails').hide();
+	$('#scan-thumbnails-'+((page-1) * 18)).show();
+	$('#scan-thumbnails-'+(((page-1) * 18)+6)).show();
+	$('#scan-thumbnails-'+(((page-1) * 18)+12)).show();
+
+	$('div.pagination span.page').replaceWith('<a href="#" class="page" data-attr-page="'+$('div.pagination span.page').text()+'">'+$('div.pagination span.page').text()+'</a>');
+	$('div.pagination a[data-attr-page="'+page+'"]').replaceWith('<span class="page">'+page+'</span>');
+
+	if (page >1) {
+		$('span.prev').replaceWith('<a href="#" class="prev">&laquo; back</a>');
+	} else {
+		$('a.prev').replaceWith('<span class="prev">&laquo; back</span>');
+	}
+
+	if ($('a.page[data-attr-page="'+(page+1)+'"]').length >0) {
+		$('span.next').replaceWith('<a href="#" class="next">next &raquo;</a>');
+	} else {
+		$('a.next').replaceWith('<span class="next">next &raquo;</span>');
+	}
+}
 </script>

@@ -19,15 +19,11 @@
 
 class ImportScansCommand extends CConsoleCommand {
 	public function run($args) {
-		$path = Yii::app()->params['scan_directory'];
-
-		if (!$source = ProtectedFileSource::model()->find('name=?',array('Scanner'))) {
-			$source = new ProtectedFileSource;
-			$source->name = 'Scanner';
-			if (!$source->save()) {
-				throw new Exception("Unable to save protected file source: ".print_r($source->getErrors(),true));
-			}
+		if (trim(`whoami`) != trim(`ps auxww |grep apa |grep -v grep |xargs -L1 |cut -d ' ' -f1 |head -n1`)) {
+			die("You must run this script as the apache user.\n");
 		}
+
+		$path = Yii::app()->params['scan_directory'];
 
 		$dh = opendir($path);
 
@@ -36,13 +32,18 @@ class ImportScansCommand extends CConsoleCommand {
 				echo "Importing: $path/$file ... \n";
 				$scan = ProtectedFile::createFromFile("$path/$file");
 
-				$scan->source_id = $source->id;
-
 				if (!$scan->save()) {
 					throw new Exception("Unable to save protected file: ".print_r($scan->getErrors(),true));
 				}
 
 				@unlink("$path/$file");
+
+				$scannedFile = new OphMiScan_Scanned_File;
+				$scannedFile->protected_file_id = $scan->id;
+
+				if (!$scannedFile->save()) {
+					throw new Exception("Unable to save protected file: ".print_r($scannedFile->getErrors(),true));
+				}
 			}
 		}
 

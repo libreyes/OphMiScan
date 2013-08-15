@@ -66,6 +66,13 @@ class OphMiScan_Scanned_File extends BaseEventTypeElement
 		);
 	}
 
+	public function relations()
+	{
+		return array(
+			'file' => array(self::BELONGS_TO, 'ProtectedFile', 'protected_file_id'),
+		);
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -92,6 +99,10 @@ class OphMiScan_Scanned_File extends BaseEventTypeElement
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
 		));
+	}
+
+	public function findAllUnusedFiles() {
+		return OphMiScan_Scanned_File::model()->with('file')->findAll(array('order'=>'t.created_date desc','condition'=>'used=:notused','params'=>array(':notused'=>0)));
 	}
 }
 ?>
