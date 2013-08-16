@@ -1,6 +1,6 @@
 #Element_OphMiScan_Document_title { width: 29em; }
 
-div.scan-thumbnails { margin-bottom: 60px; }
+div.scan-thumbnails { margin-bottom: 80px; }
 .scan-thumbnail { background-repeat: no-repeat; background-position: center; width: 150px; height: 150px; display: inline-block; border: 4px solid #ccc; margin-right: 5px; margin-left: 5px; }
 .scan-thumbnail.selected { border: 4px solid #0b59ff; }
 .scan-thumbnail-image { height: 150px; }
@@ -12,3 +12,6 @@ div.scan-thumbnails { margin-bottom: 60px; }
 
 .pdf-preview { margin-top: 50px; }
 .pagination { float: right; margin-right: 15px; margin-top: 13px; }
+
+.scan-thumbnails.view .scan-thumbnail-image { cursor: pointer; }
+.scan-thumbnails.edit .scan-thumbnail-image { cursor: move; }

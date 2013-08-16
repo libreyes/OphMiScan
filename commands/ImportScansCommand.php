@@ -38,7 +38,7 @@ class ImportScansCommand extends CConsoleCommand {
 
 				@unlink("$path/$file");
 
-				$scannedFile = new OphMiScan_Scanned_File;
+				$scannedFile = new OphMiScan_Document_Scan;
 				$scannedFile->protected_file_id = $scan->id;
 
 				if (!$scannedFile->save()) {

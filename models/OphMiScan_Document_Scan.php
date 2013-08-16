@@ -17,12 +17,15 @@
  */
 
 /**
- * This is the model class for table "ophmiscan_scanned_file".
+ * This is the model class for table "ophmiscan_document_scan".
  *
  * The followings are the available columns in table:
- * @property string $id
- * @property integer $protected_file
- * @property boolean $used
+ * @property intger $id
+ * @property integer $element_id
+ * @property integer $protected_file_id
+ * @property integer $category_id
+ * @property string $title
+ * @property string $description
  *
  * The followings are the available model relations:
  *
@@ -31,7 +34,7 @@
  * @property User $usermodified
  */
 
-class OphMiScan_Scanned_File extends BaseEventTypeElement
+class OphMiScan_Document_Scan extends BaseEventTypeElement
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -47,7 +50,7 @@ class OphMiScan_Scanned_File extends BaseEventTypeElement
 	 */
 	public function tableName()
 	{
-		return 'ophmiscan_scanned_file';
+		return 'ophmiscan_document_scan';
 	}
 
 	/**
@@ -58,7 +61,7 @@ class OphMiScan_Scanned_File extends BaseEventTypeElement
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('protected_file_id, used', 'safe'),
+			array('element_id, protected_file_id, category_id, title, description', 'safe'),
 			array('protected_file_id', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -70,6 +73,7 @@ class OphMiScan_Scanned_File extends BaseEventTypeElement
 	{
 		return array(
 			'file' => array(self::BELONGS_TO, 'ProtectedFile', 'protected_file_id'),
+			'category' => array(self::BELONGS_TO, 'OphMiScan_Document_Category', 'category_id'),
 		);
 	}
 

@@ -17,7 +17,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-
+?>
 <h4 class="elementTypeName"><?php  echo $element->elementType->name ?></h4>
 
 <table class="subtleWhite normalText">
@@ -33,9 +33,6 @@
 	</tbody>
 </table>
 
-<p>
-	<a href="<?php echo Yii::app()->createUrl('/asset/download/'.$element->asset_id)?>">Download <?php echo $element->asset->name?></a>
-</p>
-
-<h4 class="elementTypeName">Preview</h4>
-<img src="<?php echo Yii::app()->createUrl('/asset/preview/'.$element->asset_id)?>" />
+<?php echo $this->renderPartial('_fileview',array(
+	'element' => $element,
+))?>

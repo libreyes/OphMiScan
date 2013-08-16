@@ -71,6 +71,13 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 		);
 	}
 
+	public function relations()
+	{
+		return array(
+			'files' => array(self::HAS_MANY, 'OphMiScan_Document_Scan', 'element_id'),
+		);
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -95,23 +102,80 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 
 		$criteria->compare('id', $this->id, true);
 		$criteria->compare('event_id', $this->event_id, true);
-		$criteria->compare('asset_id', $this->asset_id);
 		
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
 		));
 	}
 
-	public function getIssueText() {
+	public function getIssueText()
+	{
 		return $this->title;
 	}
 
-	protected function afterValidate() {
+	protected function afterValidate()
+	{
 		if (empty($_POST['ProtectedFile'])) {
 			$this->addError('ProtectedFile','Please select at least one document to associate with this event');
 		}
 
 		return parent::afterValidate();
+	}
+
+	public function afterSave()
+	{
+		foreach ($_POST['ProtectedFile'] as $i => $scan_id) {
+			if ($scan = OphMiScan_Document_Scan::model()->findByPk($scan_id)) {
+				$scan->element_id = $this->id;
+				$scan->category_id = $_POST['category_id'][$i];
+
+				if (!$scan->save()) {
+					throw new Exception("Unable to save document scan: ".print_r($scan->getErrors(),true));
+				}
+			}
+		}
+
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('element_id = :element_id');
+		$criteria->params[':element_id'] = $this->id;
+		$criteria->addNotInCondition('id',$_POST['ProtectedFile']);
+
+		foreach (OphMiScan_Document_Scan::model()->findAll($criteria) as $scan) {
+			$scan->element_id = null;
+
+			if (!$scan->save()) {
+				throw new Exception("Unable to save scan: ".print_r($scan->getErrors(),true));
+			}
+		}
+
+		return parent::afterSave();
+	}
+
+	public function getScans() {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('element_id is null or element_id = :element_id');
+		$criteria->params[':element_id'] = $this->id;
+		$criteria->order = 'element_id desc, created_date desc';
+
+		return OphMiScan_Document_Scan::model()->findAll($criteria);
+	}
+
+	public function getScansCount() {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('element_id is null or element_id = :element_id');
+		$criteria->params[':element_id'] = $this->id;
+
+		return OphMiScan_Document_Scan::model()->count($criteria);
+	}
+
+	public function isSelected($id) {
+		if (!empty($_POST['ProtectedFile'])) {
+			return in_array($id,$_POST['ProtectedFile']);
+		}
+
+		if ($this->id) {
+			return OphMiScan_Document_Scan::model()->find('element_id=? and id=?',array($this->id,$id));
+		}
 	}
 }
 ?>

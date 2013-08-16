@@ -1,5 +1,5 @@
 <?php
-$pages = ceil(OphMiScan_Scanned_File::model()->count('used=?',array(0)) / 18);
+$pages = ceil($element->getScansCount() / 18);
 ?>
 <div class="pagination">
 	<span class="prev">&laquo; back</span>

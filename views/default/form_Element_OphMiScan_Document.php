@@ -27,10 +27,11 @@
 	<?php echo $form->textField($element,'title')?>
 	<?php echo $form->textArea($element,'description',array('rows'=>8,'cols'=>60))?>
 
-	<?php echo $this->renderPartial('_pagination')?>
+	<?php echo $this->renderPartial('_pagination',array('element'=>$element))?>
 
 	<h4 class="elementTypeName">Available scans</h4>
 	<?php $this->renderPartial('_filepicker',array(
+		'mode' => 'edit',
 		'identifier' => 'scans',
 		'element' => $element,
 		'filetypes' =>array(
