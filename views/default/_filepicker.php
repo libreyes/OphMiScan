@@ -19,6 +19,7 @@
 
 ?>
 <div class="scan-preview"></div>
+<div class="to-delete"></div>
 <ul class="scan-thumbnails">
 	<?php foreach ($element->scans as $i => $scan) {?>
 		<li>
@@ -32,7 +33,10 @@
 						<?php echo CHtml::dropDownList('category_id[]',(!empty($_POST) ? @$_POST['category_id'][$i] : $scan->category_id),CHtml::listData(OphMiScan_Document_Category::model()->findAll(array('order'=>'name')),'id','name'),array('empty'=>'- No category -','disabled'=>!$element->isSelected($scan->id)))?>
 					</div>
 					<div class="scan-thumbnail-preview-link">
-						<button type="submit" class="classy blue mini preview-thumbnail"><span class="button-span button-span-blue">Preview</span></button>
+						<button type="submit" class="classy blue mini preview-thumbnail"><span class="button-span button-span-blue">View</span></button>
+						<?php if (@$can_delete) {?>
+							<button type="submit" class="classy red mini delete"><span class="button-span button-span-red">Delete</span></button>
+						<?php }?>
 					</div>
 					<input type="hidden" name="ProtectedFile[]" value="<?php echo $scan->id?>"<?php if (!$element->isSelected($scan->id)){?> disabled="disabled"<?php }?> />
 				</div>
@@ -40,6 +44,24 @@
 		</li>
 	<?php }?>
 </ul>
+<div id="confirm_delete_scan" title="Confirm delete scan" style="display: none;">
+	<div>
+		<div id="delete_scan">
+			<div class="alertBox" style="margin-top: 10px; margin-bottom: 15px;">
+				<strong>WARNING: This will permanently delete the scanned document.</strong>
+			</div>
+			<p>
+				<strong>Are you sure you want to proceed?</strong>
+			</p>
+			<div class="buttonwrapper" style="margin-top: 15px; margin-bottom: 5px;">
+				<button type="submit" class="classy red venti btn_delete_scan"><span class="button-span button-span-red">Delete scan</span></button>
+				<button type="submit" class="classy green venti btn_cancel_delete_scan"><span class="button-span button-span-green">Cancel</span></button>
+				<img class="loader" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>" alt="loading..." style="display: none;" />
+				<input type="hidden" id="delete_scan_id" name="delete_scan_id" value="" />
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	$('div.scan-thumbnail-image').map(function() {
 		var url = $(this).attr('data-attr-preview-link');
@@ -58,7 +80,7 @@
 			content: '<img src="'+url+'" />',
 			width: 600,
 			position: 'top',
-			dialogClass: 'dialog pdf-preview',
+			dialogClass: 'dialog',
 		}).open();
 	});
 
@@ -96,7 +118,43 @@
 		OphMiScan_selectPage(page+1);
 	});
 
-	$('.scan-thumbnails').sortable();
+	<?php if (@$dragsort) {?>
+		$('.scan-thumbnails').sortable();
+	<?php }?>
+
+	$('button.delete').click(function(e) {
+		e.preventDefault();
+
+		$('#delete_scan_id').val($(this).parent().parent().children('div').attr('data-id'));
+
+		$('#confirm_delete_scan').dialog({
+			resizable: false,
+			modal: true,
+			width: 500
+		});
+	});
+
+	$('.btn_cancel_delete_scan').click(function(e) {
+		$('#confirm_delete_scan').dialog('close');
+	});
+
+	$('.btn_delete_scan').click(function(e) {
+		$('#confirm_delete_scan').dialog('close');
+
+		$.ajax({
+			'type': 'POST',
+			'url': baseUrl+'/OphMiScan/default/deleteScan',
+			'data': "scan_id="+$('#delete_scan_id').val()+"&YII_CSRF_TOKEN="+YII_CSRF_TOKEN,
+			'success': function(resp) {
+				if (resp != '1') {
+					alert("An internal error occurred, please try again or contact support for assistance.");
+				} else {
+					$('div.to-delete').append('<input type="hidden" name="ToDelete[]" value="'+$('#delete_scan_id').val()+'" />');
+					$('div.scan-thumbnail-image[data-id="'+$('#delete_scan_id').val()+'"]').closest('li').remove();
+				}
+			}
+		});
+	});
 
 function OphMiScan_selectPage(page) {
 	$('div.scan-thumbnails').hide();
