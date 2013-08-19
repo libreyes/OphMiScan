@@ -74,7 +74,7 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 	public function relations()
 	{
 		return array(
-			'files' => array(self::HAS_MANY, 'OphMiScan_Document_Scan', 'element_id'),
+			'files' => array(self::HAS_MANY, 'OphMiScan_Document_Scan', 'element_id', 'order' => 'display_order asc'),
 		);
 	}
 
@@ -128,6 +128,7 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 			if ($scan = OphMiScan_Document_Scan::model()->findByPk($scan_id)) {
 				$scan->element_id = $this->id;
 				$scan->category_id = $_POST['category_id'][$i];
+				$scan->display_order = $i+1;
 
 				if (!$scan->save()) {
 					throw new Exception("Unable to save document scan: ".print_r($scan->getErrors(),true));

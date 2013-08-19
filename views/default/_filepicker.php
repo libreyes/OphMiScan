@@ -18,39 +18,28 @@
  */
 
 ?>
-<div class="selectedFiles">
-	<?php
-	if (!empty($_POST['ProtectedFile'])) {
-		foreach ($_POST['ProtectedFile'] as $scan_id) {?>
-			<input type="hidden" name="ProtectedFile[]" value="<?php echo $scan_id?>" />
-		<?php }
-	} else {
-		foreach ($element->files as $file) {?>
-			<input type="hidden" name="ProtectedFile[]" value="<?php echo $file->id?>" />
-		<?php }
-	}
-?>
-</div>
 <div class="scan-preview"></div>
-<div class="scan-thumbnails edit" id="scan-thumbnails-0">
+<ul class="scan-thumbnails">
 	<?php foreach ($element->scans as $i => $scan) {?>
-		<?php if ($i >0 && ($i % 6) == 0) {?>
-			</div><div class="scan-thumbnails" id="scan-thumbnails-<?php echo $i?>"<?php if ($i>12) {?> style="display: none;"<?php }?>>
-		<?php }?>
-		<div class="scan-thumbnail<?php if ($element->isSelected($scan->id)) {?> selected<?php }?>">
-			<div class="scan-thumbnail-image" style="background-image:url('<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/200_60x60/'.$scan->file->name)?>');" data-id="<?php echo $scan->id?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>"></div>
-			<div class="scan-thumbnail-date">
-				<?php echo date('j M Y H:i',strtotime($scan->created_date))?>
+		<li>
+			<div class="scan-thumbnail-container">
+				<div class="scan-thumbnail<?php if ($element->isSelected($scan->id)) {?> selected<?php }?>">
+					<div class="scan-thumbnail-image" style="background-image:url('<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/200_60x60/'.$scan->file->name)?>');" data-id="<?php echo $scan->id?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>"></div>
+					<div class="scan-thumbnail-date">
+						<?php echo date('j M Y H:i',strtotime($scan->created_date))?>
+					</div>
+					<div>
+						<?php echo CHtml::dropDownList('category_id[]',(!empty($_POST) ? @$_POST['category_id'][$i] : $scan->category_id),CHtml::listData(OphMiScan_Document_Category::model()->findAll(array('order'=>'name')),'id','name'),array('empty'=>'- No category -','disabled'=>!$element->isSelected($scan->id)))?>
+					</div>
+					<div class="scan-thumbnail-preview-link">
+						<button type="submit" class="classy blue mini preview-thumbnail"><span class="button-span button-span-blue">Preview</span></button>
+					</div>
+					<input type="hidden" name="ProtectedFile[]" value="<?php echo $scan->id?>"<?php if (!$element->isSelected($scan->id)){?> disabled="disabled"<?php }?> />
+				</div>
 			</div>
-			<div>
-				<?php echo CHtml::dropDownList('category_id[]',(!empty($_POST) ? @$_POST['category_id'][$i] : $scan->category_id),CHtml::listData(OphMiScan_Document_Category::model()->findAll(array('order'=>'name')),'id','name'),array('empty'=>'- No category -'))?>
-			</div>
-			<div class="scan-thumbnail-preview-link">
-				<button type="submit" class="classy blue mini preview-thumbnail"><span class="button-span button-span-blue">Preview</span></button>
-			</div>
-		</div>
+		</li>
 	<?php }?>
-</div>
+</ul>
 <script type="text/javascript">
 	$('div.scan-thumbnail-image').map(function() {
 		var url = $(this).attr('data-attr-preview-link');
@@ -76,10 +65,12 @@
 	$('div.scan-thumbnail-image').click(function() {
 		if ($(this).parent().hasClass('selected')) {
 			$(this).parent().removeClass('selected');
-			$('input[name="ProtectedFile[]"][value="'+$(this).attr('data-id')+'"]').remove();
+			$(this).parent().children('input[type="hidden"]').attr('disabled','disabled');
+			$(this).next('div').next('div').children('select').attr('disabled','disabled');
 		} else {
 			$(this).parent().addClass('selected');
-			$('.selectedFiles').append('<input type="hidden" name="ProtectedFile[]" value="'+$(this).attr('data-id')+'" />');
+			$(this).parent().children('input[type="hidden"]').removeAttr('disabled');
+			$(this).next('div').next('div').children('select').removeAttr('disabled');
 		}
 	});
 
@@ -104,6 +95,8 @@
 
 		OphMiScan_selectPage(page+1);
 	});
+
+	$('.scan-thumbnails').sortable();
 
 function OphMiScan_selectPage(page) {
 	$('div.scan-thumbnails').hide();

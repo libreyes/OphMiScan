@@ -1,6 +1,9 @@
 <?php
 $pages = ceil($element->getScansCount() / 18);
 ?>
+<div class="show_all">
+	<a href="#">show all</a>
+</div>
 <div class="pagination">
 	<span class="prev">&laquo; back</span>
 	&nbsp;&nbsp;

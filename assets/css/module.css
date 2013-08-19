@@ -10,8 +10,17 @@ div.scan-thumbnails { margin-bottom: 80px; }
 .scan-thumbnail-select-target { height: 150px; }
 .scan-thumbnail-date { margin-top: 4px; }
 
+ul.scan-thumbnails { padding: 0; }
+ul.scan-thumbnails { list-style: none; }
+ul.scan-thumbnails li { display: inline; float: left; }
+
+.scan-thumbnail-container { height: 250px; }
+
 .pdf-preview { margin-top: 50px; }
-.pagination { float: right; margin-right: 15px; margin-top: 13px; }
+.pagination { float: right; margin-right: 30px; margin-top: 13px; }
+.show_all { float: right; margin-right: 15px; margin-top: 13px; }
 
 .scan-thumbnails.view .scan-thumbnail-image { cursor: pointer; }
 .scan-thumbnails.edit .scan-thumbnail-image { cursor: move; }
+
+#clinical-create_es_ { clear: both; }
