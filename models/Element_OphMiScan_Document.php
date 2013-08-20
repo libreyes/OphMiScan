@@ -124,14 +124,6 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 
 	public function afterSave()
 	{
-		foreach ($_POST['ToDelete'] as $scan_id) {
-			if ($scan = OphMiScan_Document_Scan::model()->findByPk($scan_id)) {
-				if (!$scan->delete()) {
-					throw new Exception("Unable to delete document scan: ".print_r($scan->getErrors(),true));
-				}
-			}
-		}
-
 		foreach ($_POST['ProtectedFile'] as $i => $scan_id) {
 			if ($scan = OphMiScan_Document_Scan::model()->findByPk($scan_id)) {
 				$scan->element_id = $this->id;
