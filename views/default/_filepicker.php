@@ -127,33 +127,26 @@
 
 		$('#delete_scan_id').val($(this).parent().parent().children('div').attr('data-id'));
 
-		$('#confirm_delete_scan').dialog({
-			resizable: false,
-			modal: true,
-			width: 500
-		});
-	});
-
-	$('.btn_cancel_delete_scan').click(function(e) {
-		$('#confirm_delete_scan').dialog('close');
-	});
-
-	$('.btn_delete_scan').click(function(e) {
-		$('#confirm_delete_scan').dialog('close');
-
-		$.ajax({
-			'type': 'POST',
-			'url': baseUrl+'/OphMiScan/default/deleteScan',
-			'data': "scan_id="+$('#delete_scan_id').val()+"&YII_CSRF_TOKEN="+YII_CSRF_TOKEN,
-			'success': function(resp) {
-				if (resp != '1') {
-					alert("An internal error occurred, please try again or contact support for assistance.");
-				} else {
-					$('div.to-delete').append('<input type="hidden" name="ToDelete[]" value="'+$('#delete_scan_id').val()+'" />');
-					$('div.scan-thumbnail-image[data-id="'+$('#delete_scan_id').val()+'"]').closest('li').remove();
-				}
+		new OpenEyes.Dialog.Confirm({
+			title: "Confirm delete scan",
+			content: "<strong><p>WARNING: This will permanently delete the scanned document.</p><br/><p>Are you sure you want to proceed?</p></strong>",
+			okButton: "Delete scan",
+			onOk: function() {
+				$.ajax({
+					'type': 'POST',
+					'url': baseUrl+'/OphMiScan/default/deleteScan',
+					'data': "scan_id="+$('#delete_scan_id').val()+"&YII_CSRF_TOKEN="+YII_CSRF_TOKEN,
+					'success': function(resp) {
+						if (resp != '1') {
+							alert("An internal error occurred, please try again or contact support for assistance.");
+						} else {
+							$('div.to-delete').append('<input type="hidden" name="ToDelete[]" value="'+$('#delete_scan_id').val()+'" />');
+							$('div.scan-thumbnail-image[data-id="'+$('#delete_scan_id').val()+'"]').closest('li').remove();
+						}
+					}
+				});
 			}
-		});
+		}).open();
 	});
 
 function OphMiScan_selectPage(page) {
