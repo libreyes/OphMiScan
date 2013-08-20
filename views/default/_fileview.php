@@ -18,6 +18,12 @@
  */
 
 ?>
+<div class="firstPage">
+	<?php foreach ($element->files as $scan) {?>
+		<img src="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>" />
+		<?php break?>
+	<?php }?>
+</div>
 <div class="scan-preview"></div>
 <div class="scan-thumbnails view" id="scan-thumbnails-0">
 	<?php foreach ($element->files as $i => $scan) {?>
