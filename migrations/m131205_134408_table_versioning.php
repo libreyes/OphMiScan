@@ -111,12 +111,9 @@ CREATE TABLE `ophmiscan_document_scan_version` (
 	public function down()
 	{
 		$this->dropColumn('ophmiscan_document_category','deleted');
-		$this->dropColumn('ophmiscan_document_category_version','deleted');
 		$this->dropColumn('ophmiscan_document_scan','deleted');
-		$this->dropColumn('ophmiscan_document_scan_version','deleted');
 
 		$this->dropColumn('et_ophmiscan_document','deleted');
-		$this->dropColumn('et_ophmiscan_document_version','deleted');
 
 		$this->dropTable('et_ophmiscan_document_version');
 		$this->dropTable('ophmiscan_document_category_version');
