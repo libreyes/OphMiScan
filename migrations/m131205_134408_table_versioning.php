@@ -8,8 +8,8 @@ class m131205_134408_table_versioning extends CDbMigration
 CREATE TABLE `et_ophmiscan_document_version` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`event_id` int(10) unsigned NOT NULL,
-	`title` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-	`description` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
+	`title` varchar(255) DEFAULT NULL,
+	`description` varchar(1024) DEFAULT NULL,
 	`last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 	`last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 	`created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -21,7 +21,7 @@ CREATE TABLE `et_ophmiscan_document_version` (
 	CONSTRAINT `acv_et_ophmiscan_document_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_et_ophmiscan_document_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_et_ophmiscan_document_ev_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
 		$this->alterColumn('et_ophmiscan_document_version','id','int(10) unsigned NOT NULL');
@@ -39,7 +39,7 @@ CREATE TABLE `et_ophmiscan_document_version` (
 		$this->execute("
 CREATE TABLE `ophmiscan_document_category_version` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	`name` varchar(64) COLLATE utf8_bin NOT NULL,
+	`name` varchar(64) NOT NULL,
 	`last_modified_user_id` int(10) unsigned NOT NULL DEFAULT '1',
 	`last_modified_date` datetime NOT NULL DEFAULT '1901-01-01 00:00:00',
 	`created_user_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -49,7 +49,7 @@ CREATE TABLE `ophmiscan_document_category_version` (
 	KEY `acv_ophmiscan_document_category_cui_fk` (`created_user_id`),
 	CONSTRAINT `acv_ophmiscan_document_category_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophmiscan_document_category_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
 		$this->alterColumn('ophmiscan_document_category_version','id','int(10) unsigned NOT NULL');
@@ -84,7 +84,7 @@ CREATE TABLE `ophmiscan_document_scan_version` (
 	CONSTRAINT `acv_ophmiscan_document_scan_el_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophmiscan_document` (`id`),
 	CONSTRAINT `acv_ophmiscan_document_scan_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophmiscan_document_scan_pf_fk` FOREIGN KEY (`protected_file_id`) REFERENCES `protected_file` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 		");
 
 		$this->alterColumn('ophmiscan_document_scan_version','id','int(10) unsigned NOT NULL');
