@@ -27,6 +27,6 @@ class m130816_102739_refactor extends CDbMigration
 				'CONSTRAINT `ophmiscan_scanned_file_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophmiscan_scanned_file_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophmiscan_scanned_file_pf_fk` FOREIGN KEY (`protected_file_id`) REFERENCES `protected_file` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 	}
 }

@@ -17,7 +17,7 @@ class m130108_114151_event_type_OphMiScan extends CDbMigration
 
 		$this->createTable('ophmiscan_document_category', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
-				'name' => 'varchar(64) COLLATE utf8_bin NOT NULL',
+				'name' => 'varchar(64) NOT NULL',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -27,13 +27,13 @@ class m130108_114151_event_type_OphMiScan extends CDbMigration
 				'KEY `ophmiscan_document_category_cui_fk` (`created_user_id`)',
 				'CONSTRAINT `ophmiscan_document_category_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophmiscan_document_category_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
 		$this->createTable('et_ophmiscan_document', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'event_id' => 'int(10) unsigned NOT NULL',
-				'title' => 'varchar(255) COLLATE utf8_bin DEFAULT NULL',
-				'description' => 'varchar(1024) COLLATE utf8_bin DEFAULT NULL',
+				'title' => 'varchar(255) DEFAULT NULL',
+				'description' => 'varchar(1024) DEFAULT NULL',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -45,15 +45,15 @@ class m130108_114151_event_type_OphMiScan extends CDbMigration
 				'CONSTRAINT `et_ophmiscan_document_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophmiscan_document_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `et_ophmiscan_document_ev_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
 		$this->createTable('ophmiscan_document_scan', array(
 				'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT',
 				'element_id' => 'int(10) unsigned NOT NULL',
 				'protected_file_id' => 'int(10) unsigned NOT NULL',
 				'category_id' => 'int(10) unsigned NOT NULL',
-				'title' => 'varchar(255) COLLATE utf8_bin DEFAULT NULL',
-				'description' => 'varchar(1024) COLLATE utf8_bin DEFAULT NULL',
+				'title' => 'varchar(255) DEFAULT NULL',
+				'description' => 'varchar(1024) DEFAULT NULL',
 				'last_modified_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
 				'last_modified_date' => 'datetime NOT NULL DEFAULT \'1901-01-01 00:00:00\'',
 				'created_user_id' => 'int(10) unsigned NOT NULL DEFAULT 1',
@@ -67,7 +67,7 @@ class m130108_114151_event_type_OphMiScan extends CDbMigration
 				'CONSTRAINT `ophmiscan_document_scan_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)',
 				'CONSTRAINT `ophmiscan_document_scan_el_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophmiscan_document` (`id`)',
 				'CONSTRAINT `ophmiscan_document_scan_pf_fk` FOREIGN KEY (`protected_file_id`) REFERENCES `protected_file` (`id`)',
-			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin');
+			), 'ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
 	}
 
 	public function down() {
