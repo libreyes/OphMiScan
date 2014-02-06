@@ -24,7 +24,7 @@
  * @property string $name
  */
 
-class OphMiScan_Document_Category extends BaseEventTypeElement
+class OphMiScan_Document_Category extends BaseActiveRecordVersionedSoftDelete
 {
 	/**
 	 * Returns the static model of the specified AR class.

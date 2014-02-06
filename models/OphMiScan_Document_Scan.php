@@ -34,7 +34,7 @@
  * @property User $usermodified
  */
 
-class OphMiScan_Document_Scan extends BaseEventTypeElement
+class OphMiScan_Document_Scan extends BaseActiveRecordVersioned
 {
 	/**
 	 * Returns the static model of the specified AR class.
