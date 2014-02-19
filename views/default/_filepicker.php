@@ -30,7 +30,7 @@
 						<?php echo date('j M Y H:i',strtotime($scan->created_date))?>
 					</div>
 					<div>
-						<?php echo CHtml::dropDownList('category_id[]',(!empty($_POST) ? @$_POST['category_id'][$i] : $scan->category_id),CHtml::listData(OphMiScan_Document_Category::model()->findAll(array('order'=>'name')),'id','name'),array('empty'=>'- No category -','disabled'=>!$element->isSelected($scan->id)))?>
+						<?php echo CHtml::dropDownList('category_id[]',(!empty($_POST) ? @$_POST['category_id'][$i] : $scan->category_id),CHtml::listData(OphMiScan_Document_Category::model()->notDeletedOrPk($scan->category_id)->findAll(array('order'=>'name')),'id','name'),array('empty'=>'- No category -','disabled'=>!$element->isSelected($scan->id)))?>
 					</div>
 					<div class="scan-thumbnail-preview-link">
 						<button type="submit" class="classy blue mini preview-thumbnail"><span class="button-span button-span-blue">View</span></button>
