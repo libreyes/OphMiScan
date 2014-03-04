@@ -81,7 +81,6 @@ CREATE TABLE `ophmiscan_document_scan_version` (
 	KEY `acv_ophmiscan_document_scan_el_fk` (`element_id`),
 	KEY `acv_ophmiscan_document_scan_pf_fk` (`protected_file_id`),
 	CONSTRAINT `acv_ophmiscan_document_scan_cui_fk` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`),
-	CONSTRAINT `acv_ophmiscan_document_scan_el_fk` FOREIGN KEY (`element_id`) REFERENCES `et_ophmiscan_document` (`id`),
 	CONSTRAINT `acv_ophmiscan_document_scan_lmui_fk` FOREIGN KEY (`last_modified_user_id`) REFERENCES `user` (`id`),
 	CONSTRAINT `acv_ophmiscan_document_scan_pf_fk` FOREIGN KEY (`protected_file_id`) REFERENCES `protected_file` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
