@@ -1,30 +1,30 @@
-#Element_OphMiScan_Document_title { width: 29em; }
-
-div.scan-thumbnails { margin-bottom: 80px; }
-.scan-thumbnail { background-repeat: no-repeat; background-position: center; width: 150px; height: 150px; display: inline-block; border: 4px solid #ccc; margin-right: 5px; margin-left: 5px; }
-.scan-thumbnail.selected { border: 4px solid #0b59ff; }
-.scan-thumbnail-image { height: 150px; }
-.scan-thumbnail .preview-thumbnail { margin-top: 4px; }
-.scan-thumbnail a:hover { text-decoration: none; border: 0; }
-.scan-thumbnail-preview-link { height: 38px; }
-.scan-thumbnail-select-target { height: 150px; }
-.scan-thumbnail-date { margin-top: 4px; }
-
-ul.scan-thumbnails { padding: 0; }
-ul.scan-thumbnails { list-style: none; }
-ul.scan-thumbnails li { display: inline; float: left; }
-
-.scan-thumbnail-container { height: 250px; }
-
-.pdf-preview { margin-top: 50px; }
-.pagination { float: right; margin-right: 30px; margin-top: 13px; }
-.show_all { float: right; margin-right: 15px; margin-top: 13px; }
-
-.scan-thumbnails.view .scan-thumbnail-image { cursor: pointer; }
-.scan-thumbnails.edit .scan-thumbnail-image { cursor: move; }
-
-#clinical-create_es_ { clear: both; }
-
-.classy.mini span { padding: 0 15px; }
-
-.firstPage { margin-bottom: 2em; }
+/** Phasing */
+/**
+ * OpenEyes
+ *
+ * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
+ * (C) OpenEyes Foundation, 2011-2013
+ * This file is part of OpenEyes.
+ * OpenEyes is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * OpenEyes is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with OpenEyes in a file titled COPYING. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package OpenEyes
+ * @link http://www.openeyes.org.uk
+ * @author OpenEyes <info@openeyes.org.uk>
+ * @copyright Copyright (c) 2008-2011, Moorfields Eye Hospital NHS Foundation Trust
+ * @copyright Copyright (c) 2011-2013, OpenEyes Foundation
+ * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
+ */
+/* line 17, ../sass/components/_event.scss */
+.event {
+  border-color: #fdcc56;
+}
+/* line 19, ../sass/components/_event.scss */
+.event .event-content {
+  background-image: url('../img/watermark.png?1397139794');
+}
+/* line 22, ../sass/components/_event.scss */
+.event .event-title {
+  background-image: url('../img/medium.png?1397139794');
+}

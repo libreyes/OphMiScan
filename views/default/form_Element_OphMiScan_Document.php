@@ -1,4 +1,5 @@
-<?php /**
+<?php
+/**
  * OpenEyes
  *
  * (C) Moorfields Eye Hospital NHS Foundation Trust, 2008-2011
@@ -15,26 +16,26 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-
 ?>
-<div class="element <?php echo $element->elementType->class_name?>"
-	data-element-type-id="<?php echo $element->elementType->id?>"
-	data-element-type-class="<?php echo $element->elementType->class_name?>"
-	data-element-type-name="<?php echo $element->elementType->name?>"
-	data-element-display-order="<?php echo $element->elementType->display_order?>">
+<section class="element <?php echo $element->elementType->class_name ?>"
+	data-element-type-id="<?php echo $element->elementType->id ?>"
+	data-element-type-class="<?php echo $element->elementType->class_name ?>"
+	data-element-type-name="<?php echo $element->elementType->name ?>"
+	data-element-display-order="<?php echo $element->elementType->display_order ?>">
+	<div class="element-fields row">
+		<h4 class="elementTypeName">Document details</h4>
+		<?php echo $form->textField($element,'title')?>
+		<?php echo $form->textArea($element,'description',array('rows'=>8,'cols'=>60))?>
 
-	<h4 class="elementTypeName">Document details</h4>
-	<?php echo $form->textField($element,'title')?>
-	<?php echo $form->textArea($element,'description',array('rows'=>8,'cols'=>60))?>
-
-	<h4 class="elementTypeName">Available scans</h4>
-	<?php $this->renderPartial('_filepicker',array(
-		'mode' => 'edit',
-		'identifier' => 'scans',
-		'element' => $element,
-		'dragsort' => true,
-		'filetypes' => array(
-			'application/pdf',
-		),
-	))?>
-</div>
+		<h4 class="elementTypeName">Available scans</h4>
+		<?php $this->renderPartial('_filepicker',array(
+			'mode' => 'edit',
+			'identifier' => 'scans',
+			'element' => $element,
+			'dragsort' => true,
+			'filetypes' => array(
+				'application/pdf',
+			),
+		))?>
+	</div>
+</section>
