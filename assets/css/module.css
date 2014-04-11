@@ -28,3 +28,33 @@
 .event .event-title {
   background-image: url('../img/medium.png?1397139794');
 }
+
+/* line 29, ../sass/components/_event.scss */
+.scans .page .row {
+  padding-bottom: 1.25em;
+}
+/* line 32, ../sass/components/_event.scss */
+.scans .page .column {
+  padding-bottom: 1.25em;
+}
+/* line 35, ../sass/components/_event.scss */
+.scans .page .thumbnail {
+  padding-bottom: 0.625em;
+}
+/* line 38, ../sass/components/_event.scss */
+.scans .page .thumbnail-image {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  border: 2px solid #aaa;
+}
+/* line 42, ../sass/components/_event.scss */
+.scans .page .category {
+  margin-bottom: 0.625em;
+}
+/* line 45, ../sass/components/_event.scss */
+.scans .page .selected {
+  border: 2px solid #00f;
+}

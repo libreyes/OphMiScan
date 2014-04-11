@@ -23,3 +23,30 @@
 		background-image: image-url("medium.png");
 	}
 }
+
+.scans {
+	.page {
+		.row {
+			padding-bottom: emCalc(20px);
+		}
+		.column {
+			padding-bottom: emCalc(20px);
+		}
+		.thumbnail {
+			padding-bottom: emCalc(10px);
+		}
+		.thumbnail-image {
+			@include border-radius(10px);
+			border: 3px solid #aaa;
+		}
+		.category {
+			margin-bottom: emCalc(10px);
+		}
+		.selected {
+			border: 3px solid #00f;
+		}
+	}
+	.pagination {
+		padding-bottom: emCalc(20px);
+	}
+}

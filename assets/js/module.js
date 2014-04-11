@@ -60,7 +60,108 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	$('.thumbnail-image').click(function(e) {
+		e.preventDefault();
+
+		if ($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			$(this).children('input').attr('disabled','disabled');
+		} else {
+			$(this).addClass('selected');
+			$(this).children('input').removeAttr('disabled');
+		}
+	});
+
+	$('.thumbnail-image').map(function() {
+		var url = $(this).closest('.column').attr('data-attr-preview-link');
+
+		$(this).zoom({
+			url: url
+		});
+	});
+
+	$('.btn-view').click(function(e) {
+		e.preventDefault();
+
+		var url = $(this).closest('.column').attr('data-attr-preview-link');
+
+		new OpenEyes.UI.Dialog({
+			content: '<img src="'+url+'" />',
+			width: 600,
+			position: 'top',
+			dialogClass: 'dialog',
+		}).open();
+	});
+
+	$('a.page').die('click').live('click',function(e) {
+		e.preventDefault();
+		selectPage(parseInt($(this).data('page')) - 1);
+	});
+
+	$('a.next').die('click').live('click',function(e) {
+		e.preventDefault();
+		selectPage(parseInt($('span.page:first').text()));
+	});
+
+	$('a.prev').die('click').live('click',function(e) {
+		e.preventDefault();
+		selectPage(parseInt($('span.page:first').text()) - 2);
+	});
+
+	$('.btn-delete').click(function(e) {
+		e.preventDefault();
+
+		$('#delete_scan_id').val($(this).parent().parent().children('div').attr('data-id'));
+
+		new OpenEyes.UI.Dialog.Confirm({
+			title: "Confirm delete scan",
+			content: "<strong><p>WARNING: This will permanently delete the scanned document.</p><br/><p>Are you sure you want to proceed?</p></strong>",
+			okButton: "Delete scan",
+			onOk: function() {
+				$.ajax({
+					'type': 'POST',
+					'url': baseUrl+'/OphMiScan/default/deleteScan',
+					'data': "scan_id="+$('#delete_scan_id').val()+"&YII_CSRF_TOKEN="+YII_CSRF_TOKEN,
+					'success': function(resp) {
+						if (resp != '1') {
+							alert("An internal error occurred, please try again or contact support for assistance.");
+						} else {
+							$('div.to-delete').append('<input type="hidden" name="ToDelete[]" value="'+$('#delete_scan_id').val()+'" />');
+							$('div.scan-thumbnail-image[data-id="'+$('#delete_scan_id').val()+'"]').closest('li').remove();
+						}
+					}
+				});
+			}
+		}).open();
+	});
 });
+
+function selectPage(page)
+{
+	if ($('.scans div.page[data-page="'+page+'"]').length >0) {
+		$('.scans div.page').hide();
+		$('.scans div.page[data-page="'+page+'"]').show();
+
+		$('.pagination span.page').map(function() {
+			$(this).replaceWith('<a href="#" class="page" data-page="'+$(this).text()+'">'+$(this).text()+'</a>');
+		});
+
+		$('a.page[data-page="'+(page+1)+'"]').replaceWith('<span class="page">'+(page+1)+'</span>');
+
+		if ($('a.page[data-page="'+(page+2)+'"]').length >0) {
+			$('span.next').replaceWith('<a href="#" class="next">next &raquo;</a>');
+		} else {
+			$('a.next').replaceWith('<span class="next">next &raquo;</a>');
+		}
+
+		if ($('a.page[data-page="'+(page)+'"]').length >0) {
+			$('span.prev').replaceWith('<a href="#" class="prev">&laquo; back</a>');
+		} else {
+			$('a.prev').replaceWith('<span class="prev">&laquo; back</a>');
+		}
+	}
+}
 
 function ucfirst(str) { str += ''; var f = str.charAt(0).toUpperCase(); return f + str.substr(1); }
 

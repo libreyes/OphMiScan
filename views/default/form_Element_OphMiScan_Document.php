@@ -22,12 +22,18 @@
 	data-element-type-class="<?php echo $element->elementType->class_name ?>"
 	data-element-type-name="<?php echo $element->elementType->name ?>"
 	data-element-display-order="<?php echo $element->elementType->display_order ?>">
-	<div class="element-fields row">
-		<h4 class="elementTypeName">Document details</h4>
+	<header class="element-header">
+		<h3 class="element-title">Document details</h3>
+	</header>
+	<div class="element-fields">
 		<?php echo $form->textField($element,'title')?>
 		<?php echo $form->textArea($element,'description',array('rows'=>8,'cols'=>60))?>
+	</div>
 
-		<h4 class="elementTypeName">Available scans</h4>
+	<header class="element-header">
+		<h3 class="element-title">Available scans</h3>
+	</header>
+	<div class="element-fields">
 		<?php $this->renderPartial('_filepicker',array(
 			'mode' => 'edit',
 			'identifier' => 'scans',
