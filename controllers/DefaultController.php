@@ -18,6 +18,21 @@
  */
 
 class DefaultController extends BaseEventTypeController {
+	static protected $action_types = array(
+		'deleteScan' => self::ACTION_TYPE_DELETE,
+	);
+
+	public function accessRules()
+	{
+		return array_merge(array(
+				array('allow',
+					'actions' => array('deleteScan'),
+				)
+			),
+			parent::accessRules()
+		);
+	}
+
 	public function actionDeleteScan() {
 		if ($scan = OphMiScan_Document_Scan::model()->findByPk($_POST['scan_id'])) {
 			if (!$scan->delete()) {

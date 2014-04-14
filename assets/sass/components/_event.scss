@@ -27,7 +27,7 @@
 .scans {
 	.page {
 		.row {
-			padding-bottom: emCalc(20px);
+			padding-top: emCalc(20px);
 		}
 		.column {
 			padding-bottom: emCalc(20px);
@@ -45,8 +45,5 @@
 		.selected {
 			border: 3px solid #00f;
 		}
-	}
-	.pagination {
-		padding-bottom: emCalc(20px);
 	}
 }

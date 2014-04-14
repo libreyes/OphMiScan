@@ -27,6 +27,7 @@
 	<?php } else {
 		echo $this->renderPartial('_pagination',array(
 			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
+			'class' => 'top',
 		));
 
 		for ($i=0; $i<ceil(count($element->scans)/Yii::app()->params['OphMiScan_thumbnails_per_page']); $i++) {
@@ -37,6 +38,7 @@
 		}?>
 		<?php echo $this->renderPartial('_pagination',array(
 			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
+			'class' => 'bottom',
 		))?>
 	<?php }?>
 </div>

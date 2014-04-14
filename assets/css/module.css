@@ -31,7 +31,7 @@
 
 /* line 29, ../sass/components/_event.scss */
 .scans .page .row {
-  padding-bottom: 1.25em;
+  padding-top: 1.25em;
 }
 /* line 32, ../sass/components/_event.scss */
 .scans .page .column {
@@ -48,7 +48,7 @@
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  border: 2px solid #aaa;
+  border: 3px solid #aaa;
 }
 /* line 42, ../sass/components/_event.scss */
 .scans .page .category {
@@ -56,5 +56,5 @@
 }
 /* line 45, ../sass/components/_event.scss */
 .scans .page .selected {
-  border: 2px solid #00f;
+  border: 3px solid #00f;
 }
