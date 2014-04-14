@@ -73,14 +73,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.thumbnail-image').map(function() {
-		var url = $(this).closest('.column').attr('data-attr-preview-link');
-
-		$(this).zoom({
-			url: url
-		});
-	});
-
 	$('.btn-view').click(function(e) {
 		e.preventDefault();
 
@@ -134,6 +126,17 @@ $(document).ready(function() {
 				});
 			}
 		}).open();
+	});
+
+	$('img.thumbnail').load(function() {
+		$(this).prev('img.loader').hide();
+		$(this).show();
+
+		var url = $(this).closest('.column').attr('data-attr-preview-link');
+
+		$(this).parent().zoom({
+			url: url
+		});
 	});
 });
 

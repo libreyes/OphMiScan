@@ -49,12 +49,18 @@
   -o-border-radius: 10px;
   border-radius: 10px;
   border: 3px solid #aaa;
+  width: 160px;
+  height: 160px;
 }
-/* line 42, ../sass/components/_event.scss */
+/* line 44, ../sass/components/_event.scss */
 .scans .page .category {
   margin-bottom: 0.625em;
 }
-/* line 45, ../sass/components/_event.scss */
+/* line 47, ../sass/components/_event.scss */
 .scans .page .selected {
   border: 3px solid #00f;
+}
+/* line 51, ../sass/components/_event.scss */
+.scans .loader {
+  margin: 68px 0 0 68px;
 }

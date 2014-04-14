@@ -29,7 +29,8 @@
 					<div class="large-2 column<?php if (($i+1)/6 == 0 || ($i+1 >= count($element->scans))) {?> end<?php }?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>">
 						<div class="thumbnail">
 							<div class="thumbnail-image">
-								<img <?php if ($element->isSelected($scan->id)) {?>class="selected"<?php }?> src="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/200_60x60/'.$scan->file->name)?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>" />
+								<img class="loader" src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" />
+								<img class="thumbnail<?php if ($element->isSelected($scan->id)) {?> selected<?php }?>" src="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/200_60x60/'.$scan->file->name)?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>" style="display: none" />
 								<input type="hidden" name="scans[]" value="<?php echo $scan->id?>" disabled="disabled" />
 							</div>
 						</div>

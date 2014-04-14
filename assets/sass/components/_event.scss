@@ -38,6 +38,8 @@
 		.thumbnail-image {
 			@include border-radius(10px);
 			border: 3px solid #aaa;
+			width: 160px;
+			height: 160px;
 		}
 		.category {
 			margin-bottom: emCalc(10px);
@@ -45,5 +47,8 @@
 		.selected {
 			border: 3px solid #00f;
 		}
+	}
+	.loader {
+		margin: 68px 0 0 68px;
 	}
 }
