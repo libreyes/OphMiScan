@@ -16,23 +16,77 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
-
 ?>
-<h4 class="elementTypeName"><?php  echo $element->elementType->name ?></h4>
+<section class="element">
+	<header class="element-header">
+		<h3 class="element-title"><?php echo $element->elementType->name?></h3>
+	</header>
 
-<table class="subtleWhite normalText">
-	<tbody>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('title'))?></td>
-			<td><span class="big"><?php echo $element->title?></span></td>
-		</tr>
-		<tr>
-			<td width="30%"><?php echo CHtml::encode($element->getAttributeLabel('description'))?></td>
-			<td><span class="big"><?php echo $element->description?></span></td>
-		</tr>
-	</tbody>
-</table>
+	<div class="element-data">
+		<div class="row data-row">
+			<div class="large-2 column">
+				<div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('title'))?>:</div>
+			</div>
+			<div class="large-10 column">
+				<div class="data-value"><?php echo CHtml::encode($element->title)?></div>
+			</div>
+		</div>
+		<div class="row data-row">
+			<div class="large-2 column">
+				<div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('description'))?>:</div>
+			</div>
+			<div class="large-10 column">
+				<div class="data-value"><?php echo CHtml::encode($element->description)?></div>
+			</div>
+		</div>
+	</div>
+</section>
 
-<?php echo $this->renderPartial('_fileview',array(
-	'element' => $element,
-))?>
+<section class="element">
+	<header class="element-header">
+		<h3 class="element-title">Preview</h3>
+	</header>
+	<div class="element-data">
+		<div class="row data-row panel">
+			<?php echo $this->renderPartial('_pagination',array(
+				'page' => 1,
+				'pages' => count($element->files),
+				'class' => 'view',
+			))?>
+		</div>
+		<?php foreach ($element->files as $i => $scan) {?>
+			<div class="row data-row view-scan" data-i="<?php echo $i?>"<?php if ($i >0) {?> style="display: none"<?php }?>>
+				<img src="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>" />
+			</div>
+		<?php }?>
+		<div class="row data-row panel">
+			<?php echo $this->renderPartial('_pagination',array(
+				'page' => 1,
+				'pages' => count($element->files),
+				'class' => 'view',
+			))?>
+		</div>
+	</div>
+</section>
+
+<section class="element">
+	<header class="element-header">
+		<h3 class="element-title">Attachments</h3>
+	</header>
+	<div class="element-data">
+		<table class="grid">
+			<tr>
+				<th>Scan date</th>
+				<th>Filename</th>
+				<th>Category</th>
+			</tr>
+			<?php foreach ($element->files as $i => $scan) {?>
+				<tr>
+					<td><?php echo date('j M Y H:i',strtotime($scan->created_date))?></td>
+					<td><?php echo CHtml::link($scan->file->name,$scan->file->getDownloadURL())?></td>
+					<td><?php echo $scan->category ? $scan->category->name : 'No category'?></td>
+				</tr>
+			<?php }?>
+		</table>
+	</div>
+</section>

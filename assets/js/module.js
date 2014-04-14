@@ -6,7 +6,6 @@ $(document).ready(function() {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
 
-			
 			return true;
 		}
 		return false;
@@ -67,9 +66,11 @@ $(document).ready(function() {
 		if ($(this).hasClass('selected')) {
 			$(this).removeClass('selected');
 			$(this).children('input').attr('disabled','disabled');
+			$(this).closest('.column').children('select').attr('disabled','disabled');
 		} else {
 			$(this).addClass('selected');
 			$(this).children('input').removeAttr('disabled');
+			$(this).closest('.column').children('select').removeAttr('disabled');
 		}
 	});
 
@@ -86,19 +87,70 @@ $(document).ready(function() {
 		}).open();
 	});
 
-	$('a.page').die('click').live('click',function(e) {
+	$('.pagination.edit a.page').die('click').live('click',function(e) {
 		e.preventDefault();
-		selectPage(parseInt($(this).data('page')) - 1);
+
+		var page = parseInt($(this).data('page')) - 1;
+
+		$('.scans div.page').hide();
+		$('.scans div.page[data-page="'+page+'"]').show();
+
+		selectPage(page);
 	});
 
-	$('a.next').die('click').live('click',function(e) {
+	$('.pagination.edit a.next').die('click').live('click',function(e) {
 		e.preventDefault();
-		selectPage(parseInt($('span.page:first').text()));
+
+		var page = parseInt($('span.page:first').text());
+
+		$('.scans div.page').hide();
+		$('.scans div.page[data-page="'+page+'"]').show();
+
+		selectPage(page);
 	});
 
-	$('a.prev').die('click').live('click',function(e) {
+	$('.pagination.edit a.prev').die('click').live('click',function(e) {
 		e.preventDefault();
-		selectPage(parseInt($('span.page:first').text()) - 2);
+
+		var page = parseInt($('span.page:first').text()) - 2;
+
+		$('.scans div.page').hide();
+		$('.scans div.page[data-page="'+page+'"]').show();
+
+		selectPage(page);
+	});
+
+	$('.pagination.view a.page').die('click').live('click',function(e) {
+		e.preventDefault();
+
+		var page = parseInt($(this).text()) -1;
+
+		$('.view-scan').hide();
+		$('.view-scan[data-i="'+page+'"]').show();
+
+		selectPage(page);
+	});
+
+	$('.pagination.view a.next').die('click').live('click',function(e) {
+		e.preventDefault();
+
+		var page = parseInt($('span.page:first').text());
+
+		$('.view-scan').hide();
+		$('.view-scan[data-i="'+page+'"]').show();
+
+		selectPage(page);
+	});
+
+	$('.pagination.view a.prev').die('click').live('click',function(e) {
+		e.preventDefault();
+
+		var page = parseInt($('span.page:first').text()) - 2;
+
+		$('.view-scan').hide();
+		$('.view-scan[data-i="'+page+'"]').show();
+
+		selectPage(page);
 	});
 
 	$('.btn-delete').click(function(e) {
@@ -129,7 +181,7 @@ $(document).ready(function() {
 	});
 
 	$('img.thumbnail').load(function() {
-		$(this).prev('img.loader').hide();
+		$(this).prev('img.thumbnail-loader').hide();
 		$(this).show();
 
 		var url = $(this).closest('.column').attr('data-attr-preview-link');
@@ -142,27 +194,22 @@ $(document).ready(function() {
 
 function selectPage(page)
 {
-	if ($('.scans div.page[data-page="'+page+'"]').length >0) {
-		$('.scans div.page').hide();
-		$('.scans div.page[data-page="'+page+'"]').show();
+	$('.pagination span.page').map(function() {
+		$(this).replaceWith('<a href="#" class="page" data-page="'+$(this).text()+'">'+$(this).text()+'</a>');
+	});
 
-		$('.pagination span.page').map(function() {
-			$(this).replaceWith('<a href="#" class="page" data-page="'+$(this).text()+'">'+$(this).text()+'</a>');
-		});
+	$('a.page[data-page="'+(page+1)+'"]').replaceWith('<span class="page">'+(page+1)+'</span>');
 
-		$('a.page[data-page="'+(page+1)+'"]').replaceWith('<span class="page">'+(page+1)+'</span>');
+	if ($('a.page[data-page="'+(page+2)+'"]').length >0) {
+		$('span.next').replaceWith('<a href="#" class="next">next &raquo;</a>');
+	} else {
+		$('a.next').replaceWith('<span class="next">next &raquo;</a>');
+	}
 
-		if ($('a.page[data-page="'+(page+2)+'"]').length >0) {
-			$('span.next').replaceWith('<a href="#" class="next">next &raquo;</a>');
-		} else {
-			$('a.next').replaceWith('<span class="next">next &raquo;</a>');
-		}
-
-		if ($('a.page[data-page="'+(page)+'"]').length >0) {
-			$('span.prev').replaceWith('<a href="#" class="prev">&laquo; back</a>');
-		} else {
-			$('a.prev').replaceWith('<span class="prev">&laquo; back</a>');
-		}
+	if ($('a.page[data-page="'+(page)+'"]').length >0) {
+		$('span.prev').replaceWith('<a href="#" class="prev">&laquo; back</a>');
+	} else {
+		$('a.prev').replaceWith('<span class="prev">&laquo; back</a>');
 	}
 }
 

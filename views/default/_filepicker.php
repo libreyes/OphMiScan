@@ -27,18 +27,17 @@
 	<?php } else {
 		echo $this->renderPartial('_pagination',array(
 			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
-			'class' => 'top',
+			'class' => 'edit top',
 		));
-
 		for ($i=0; $i<ceil(count($element->scans)/Yii::app()->params['OphMiScan_thumbnails_per_page']); $i++) {
 			$this->renderPartial('_scans_page',array(
 				'element' => $element,
 				'page' => $i,
 			));
-		}?>
-		<?php echo $this->renderPartial('_pagination',array(
+		}
+		echo $this->renderPartial('_pagination',array(
 			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
-			'class' => 'bottom',
+			'class' => 'edit bottom',
 		))?>
 	<?php }?>
 </div>

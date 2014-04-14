@@ -115,8 +115,8 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 
 	protected function afterValidate()
 	{
-		if (empty($_POST['ProtectedFile'])) {
-			$this->addError('ProtectedFile','Please select at least one document to associate with this event');
+		if (empty($_POST['scans'])) {
+			$this->addError('scans','Please select at least one document to associate with this event');
 		}
 
 		return parent::afterValidate();
@@ -124,10 +124,10 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 
 	public function afterSave()
 	{
-		foreach ($_POST['ProtectedFile'] as $i => $scan_id) {
+		foreach ($_POST['scans'] as $i => $scan_id) {
 			if ($scan = OphMiScan_Document_Scan::model()->findByPk($scan_id)) {
 				$scan->element_id = $this->id;
-				$scan->category_id = $_POST['category_id'][$i];
+				$scan->category_id = @$_POST['category_id'][$i];
 				$scan->display_order = $i+1;
 
 				if (!$scan->save()) {
@@ -139,7 +139,7 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 		$criteria = new CDbCriteria;
 		$criteria->addCondition('element_id = :element_id');
 		$criteria->params[':element_id'] = $this->id;
-		$criteria->addNotInCondition('id',$_POST['ProtectedFile']);
+		$criteria->addNotInCondition('id',$_POST['scans']);
 
 		foreach (OphMiScan_Document_Scan::model()->findAll($criteria) as $scan) {
 			$scan->element_id = null;
@@ -170,8 +170,8 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 	}
 
 	public function isSelected($id) {
-		if (!empty($_POST['ProtectedFile'])) {
-			return in_array($id,$_POST['ProtectedFile']);
+		if (!empty($_POST['scans'])) {
+			return in_array($id,$_POST['scans']);
 		}
 
 		if ($this->id) {
