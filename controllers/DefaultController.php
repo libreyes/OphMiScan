@@ -20,6 +20,7 @@
 class DefaultController extends BaseEventTypeController {
 	static protected $action_types = array(
 		'deleteScan' => self::ACTION_TYPE_DELETE,
+		'scans' => self::ACTION_TYPE_FORM,
 	);
 
 	public function accessRules()
@@ -97,5 +98,20 @@ class DefaultController extends BaseEventTypeController {
 
 			echo "1";
 		}
+	}
+
+	public function actionScans()
+	{
+		$element = new Element_OphMiScan_Document;
+
+		$this->renderPartial('_filepicker',array(
+			'mode' => 'edit',
+			'identifier' => 'scans',
+			'element' => $element,
+			'dragsort' => true,
+			'filetypes' => array(
+				'application/pdf',
+			),
+		));
 	}
 }

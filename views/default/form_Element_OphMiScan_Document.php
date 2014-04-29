@@ -52,7 +52,7 @@
 		<h3 class="element-title">Available scans</h3>
 	</header>
 
-	<div class="element-fields">
+	<div class="element-fields div_scans">
 		<?php $this->renderPartial('_filepicker',array(
 			'mode' => 'edit',
 			'identifier' => 'scans',

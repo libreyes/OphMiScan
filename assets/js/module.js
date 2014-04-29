@@ -60,7 +60,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.thumbnail-image').click(function(e) {
+	$('.thumbnail-image').live('click',function(e) {
 		e.preventDefault();
 
 		if ($(this).hasClass('selected')) {
@@ -74,7 +74,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.btn-view').click(function(e) {
+	$('.btn-view').live('click',function(e) {
 		e.preventDefault();
 
 		var url = $(this).closest('.column').attr('data-attr-preview-link');
@@ -153,7 +153,7 @@ $(document).ready(function() {
 		selectPage(page);
 	});
 
-	$('.btn-delete').click(function(e) {
+	$('.btn-delete').live('click',function(e) {
 		e.preventDefault();
 
 		$('#delete_scan_id').val($(this).parent().parent().children('div').attr('data-id'));
@@ -194,13 +194,35 @@ $(document).ready(function() {
 	$('#upload-file').click(function(e) {
 		e.preventDefault();
 
-		var options = {
-			success: afterSuccess,
+		$('#clinical-form').ajaxSubmit({
+			dataType: 'json',
+			success: function(data) {
+				if (data['status'] == 'error') {
+					alert(data['message']);
+				} else {
+					$.ajax({
+						type: 'GET',
+						url: baseUrl+'/OphMiScan/default/scans',
+						success: function(html) {
+							$('.div_scans').html(html);
+
+							$('img.thumbnail').load(function() {
+								$(this).prev('img.thumbnail-loader').hide();
+								$(this).show();
+
+								var url = $(this).closest('.column').attr('data-attr-preview-link');
+
+								$(this).parent().zoom({
+									url: url
+								});
+							});
+						}
+					});
+				}
+			},
 			uploadProgress: OnProgress,
 			resetForm: true
-		};
-
-		$('#clinical-form').ajaxSubmit(options);
+		});
 	});
 });
 
@@ -230,10 +252,6 @@ function beforeSubmit(){
 		alert("<b>"+fsize +"</b> Too big file! <br />File is too big, it should be less than 5 MB.");
 		return false
 	}
-}
-
-function afterSuccess()
-{
 }
 
 function OnProgress(_event, position, total, percentComplete)

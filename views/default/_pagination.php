@@ -26,5 +26,9 @@
 		<a href="#" class="page" data-page="<?php echo $i?>"><?php echo $i?></a>
 		&nbsp;&nbsp;
 	<?php }?>
-	<a href="#" class="next">next &raquo;</a>
+	<?php if ($pages >1) {?>
+		<a href="#" class="next">next &raquo;</a>
+	<?php }else{?>
+		<span class="next">next &raquo;</span>
+	<?php }?>
 </div>
