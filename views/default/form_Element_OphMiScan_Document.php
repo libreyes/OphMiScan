@@ -31,8 +31,27 @@
 	</div>
 
 	<header class="element-header">
+		<h3 class="element-title">Upload files</h3>
+	</header>
+	<div class="element-fields">
+		<div class="row field-row">
+			<div class="column large-4">
+				<label for="upload_field">Select file to upload</label>
+			</div>
+			<div class="column large-8">
+				<input class="file-upload" type="file" id="upload_field" name="upload_field" />
+				<input type="submit" value="Upload" class="small" id="upload-file" />
+				<div class="progress-box">
+					<div class="progress-bar"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<header class="element-header">
 		<h3 class="element-title">Available scans</h3>
 	</header>
+
 	<div class="element-fields">
 		<?php $this->renderPartial('_filepicker',array(
 			'mode' => 'edit',

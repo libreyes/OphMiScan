@@ -190,7 +190,57 @@ $(document).ready(function() {
 			url: url
 		});
 	});
+
+	$('#upload-file').click(function(e) {
+		e.preventDefault();
+
+		var options = {
+			success: afterSuccess,
+			uploadProgress: OnProgress,
+			resetForm: true
+		};
+
+		$('#clinical-form').ajaxSubmit(options);
+	});
 });
+
+function beforeSubmit(){
+	var fsize = $('#FileInput')[0].files[0].size;
+	var ftype = $('#FileInput')[0].files[0].type;
+
+	switch(ftype) {
+		case 'image/png': 
+		case 'image/gif': 
+		case 'image/jpeg': 
+		case 'image/pjpeg':
+		case 'text/plain':
+		case 'text/html':
+		case 'application/x-zip-compressed':
+		case 'application/pdf':
+		case 'application/msword':
+		case 'application/vnd.ms-excel':
+		case 'video/mp4':
+			break;
+		default:
+			$("#output").html("<b>"+ftype+"</b> Unsupported file type!");
+			return false
+	}
+		
+	if (fsize >5242880) {
+		alert("<b>"+fsize +"</b> Too big file! <br />File is too big, it should be less than 5 MB.");
+		return false
+	}
+}
+
+function afterSuccess()
+{
+}
+
+function OnProgress(_event, position, total, percentComplete)
+{
+	$('.progress-box').show();
+	$('.progress-bar').width(percentComplete + '%');
+}
 
 function selectPage(page)
 {

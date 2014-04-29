@@ -23,12 +23,15 @@ $this->beginContent('//patient/event_container'); ?>
 	?>
 
 	<?php $form = $this->beginWidget('BaseEventTypeCActiveForm', array(
-		'id'=>'clinical-create',
+		'id'=>'clinical-form',
 		'enableAjaxValidation'=>false,
 		'layoutColumns' => array(
 			'label' => 4,
 			'field' => 8
-		)
+		),
+		'htmlOptions' => array(
+			'enctype' => 'multipart/form-data',
+		),
 	));
 	?>
 		<?php $this->displayErrors($errors)?>

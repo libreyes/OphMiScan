@@ -33,7 +33,62 @@ class DefaultController extends BaseEventTypeController {
 		);
 	}
 
-	public function actionDeleteScan() {
+	public function actionCreate()
+	{
+		if (!empty($_FILES)) {
+			if ($_FILES['upload_field']['error'] == 0) {
+				$scan = ProtectedFile::createFromFile($_FILES['upload_field']['tmp_name'], $_FILES['upload_field']['name']);
+
+				if (!$scan->save()) {
+					echo json_encode(array(
+						'status' => 'error',
+						'message' => 'Unable to save uploaded file: '.print_r($scan->getErrors(),true),
+					));
+					return;
+				}
+
+				$scannedFile = new OphMiScan_Document_Scan;
+				$scannedFile->protected_file_id = $scan->id;
+
+				if (!$scannedFile->save()) {
+					echo json_encode(array(
+						'status' => 'error',
+						'message' => 'Unable to save uploaded file: '.print_r($scannedFile->getErrors(),true),
+					));
+				} else {
+					echo json_encode(array(
+						'status' => 'success',
+					));
+				}
+			} else {
+				$error = 'Unknown error';
+
+				switch ($_FILES['upload_field']['error']) {
+					case UPLOAD_ERR_OK:
+						break;
+					case UPLOAD_ERR_NO_FILE:
+						$error = 'No file sent';
+						break;
+					case UPLOAD_ERR_INI_SIZE:
+					case UPLOAD_ERR_FORM_SIZE:
+						$error = 'Filesize limit exceeded';
+						break;
+				}
+
+				echo json_encode(array(
+					'status' => 'error',
+					'message' => $error,
+				));
+			}
+
+			return;
+		}
+
+		parent::actionCreate();
+	}
+
+	public function actionDeleteScan()
+	{
 		if ($scan = OphMiScan_Document_Scan::model()->findByPk($_POST['scan_id'])) {
 			if (!$scan->delete()) {
 				echo "0";
