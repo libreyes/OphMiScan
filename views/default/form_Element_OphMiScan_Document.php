@@ -44,6 +44,9 @@
 				<div class="progress-box">
 					<div class="progress-bar"></div>
 				</div>
+				<div class="upload-status" style="display: none;">
+					Uploading 0% ...
+				</div>
 			</div>
 		</div>
 	</div>

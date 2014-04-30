@@ -72,12 +72,12 @@
 
 /* line 60, ../sass/components/_event.scss */
 .progress-box {
-  border: 1px solid #92C8DA;
+  border: 1px solid #666666;
   padding: 1px;
   position: relative;
   width: 400px;
   border-radius: 3px;
-  margin: 10px;
+  margin-top: 10px;
   display: none;
   text-align: left;
 }
@@ -86,6 +86,11 @@
 .progress-bar {
   height: 20px;
   border-radius: 3px;
-  background-color: #77E0FA;
+  background-color: #bbbbbb;
   width: 1%;
+}
+
+/* line 78, ../sass/components/_event.scss */
+.upload-status {
+  margin-top: 6px;
 }

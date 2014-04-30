@@ -6,6 +6,7 @@ $(document).ready(function() {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
 
+			$('#clinical-form').submit();
 			return true;
 		}
 		return false;
@@ -194,15 +195,46 @@ $(document).ready(function() {
 	$('#upload-file').click(function(e) {
 		e.preventDefault();
 
+		if ($('#upload_field').val() == '') {
+			alert('Please select a file to upload');
+			return;
+		}
+
+		var scan_ids = { scans: [] }
+		var category_ids = { category_id: [] };
+
+		$('input[type="hidden"][name="scans[]"]').map(function() {
+			if (!$(this).is(':disabled')) {
+				scan_ids['scans'].push($(this).val());
+				category_ids['category_id'].push($(this).closest('.thumbnail').next('select').children('option:selected').val());
+			}
+		});
+
+		$('.upload-status').show();
+
 		$('#clinical-form').ajaxSubmit({
 			dataType: 'json',
 			success: function(data) {
 				if (data['status'] == 'error') {
 					alert(data['message']);
 				} else {
+					$('.progress-bar').width('100%');
+					$('.upload-status').text('Done!');
+
+					var data = $.param(scan_ids)+'&'+$.param(category_ids)+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN;
+
+					if (typeof(OE_event_id) != 'undefined') {
+						data += '&event_id=' + OE_event_id;
+					}
+
+					OphMiScan_upload_count += 1;
+
+					data += "&upload_count=" + OphMiScan_upload_count;
+
 					$.ajax({
-						type: 'GET',
+						type: 'POST',
 						url: baseUrl+'/OphMiScan/default/scans',
+						data: data,
 						success: function(html) {
 							$('.div_scans').html(html);
 
@@ -216,6 +248,9 @@ $(document).ready(function() {
 									url: url
 								});
 							});
+
+							$('.progress-box').hide();
+							$('.upload-status').hide();
 						}
 					});
 				}
@@ -225,6 +260,8 @@ $(document).ready(function() {
 		});
 	});
 });
+
+var OphMiScan_upload_count = 0;
 
 function beforeSubmit(){
 	var fsize = $('#FileInput')[0].files[0].size;
@@ -256,8 +293,16 @@ function beforeSubmit(){
 
 function OnProgress(_event, position, total, percentComplete)
 {
+	progressBarPercent = Math.round(percentComplete / 1.42857142857143);
+
+	if (percentComplete == 100) {
+		$('.upload-status').text('Processing ...');
+	} else {
+		$('.upload-status').text("Uploading "+percentComplete+"% ...");
+	}
+
 	$('.progress-box').show();
-	$('.progress-bar').width(percentComplete + '%');
+	$('.progress-bar').width(progressBarPercent+ '%');
 }
 
 function selectPage(page)

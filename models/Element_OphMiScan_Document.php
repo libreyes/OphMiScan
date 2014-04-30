@@ -36,7 +36,7 @@
 
 class Element_OphMiScan_Document extends BaseEventTypeElement
 {
-	public $service;
+	public $upload_count = null;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -153,6 +153,34 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 	}
 
 	public function getScans() {
+		if ($this->upload_count) {
+			$criteria = new CDbCriteria;
+			$criteria->addCondition('element_id is null or element_id = :element_id');
+			$criteria->params[':element_id'] = $this->id;
+			$criteria->order = 'created_date desc';
+			$criteria->limit = $this->upload_count;
+
+			$scans = OphMiScan_Document_Scan::model()->findAll($criteria);
+
+			$ids = array();
+
+			foreach ($scans as $scan) {
+				$ids[] = $scan->id;
+			}
+
+			$criteria = new CDbCriteria;
+			$criteria->addCondition('element_id is null or element_id = :element_id');
+			$criteria->params[':element_id'] = $this->id;
+			$criteria->order = 'element_id desc, created_date desc';
+			$criteria->addNotInCondition('id',$ids);
+
+			foreach (OphMiScan_Document_Scan::model()->findAll($criteria) as $scan) {
+				$scans[] = $scan;
+			}
+
+			return $scans;
+		}
+
 		$criteria = new CDbCriteria;
 		$criteria->addCondition('element_id is null or element_id = :element_id');
 		$criteria->params[':element_id'] = $this->id;
