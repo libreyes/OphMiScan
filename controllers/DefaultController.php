@@ -19,7 +19,7 @@
 
 class DefaultController extends BaseEventTypeController {
 	static protected $action_types = array(
-		'deleteScan' => self::ACTION_TYPE_DELETE,
+		'deleteScan' => self::ACTION_TYPE_FORM,
 		'scans' => self::ACTION_TYPE_FORM,
 	);
 

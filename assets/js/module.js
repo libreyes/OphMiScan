@@ -157,7 +157,7 @@ $(document).ready(function() {
 	$('.btn-delete').live('click',function(e) {
 		e.preventDefault();
 
-		$('#delete_scan_id').val($(this).parent().parent().children('div').attr('data-id'));
+		$('#delete_scan_id').val($(this).closest('.column').children('.thumbnail').children('.thumbnail-image').children('input[name="scans[]"]').val());
 
 		new OpenEyes.UI.Dialog.Confirm({
 			title: "Confirm delete scan",
@@ -172,8 +172,7 @@ $(document).ready(function() {
 						if (resp != '1') {
 							alert("An internal error occurred, please try again or contact support for assistance.");
 						} else {
-							$('div.to-delete').append('<input type="hidden" name="ToDelete[]" value="'+$('#delete_scan_id').val()+'" />');
-							$('div.scan-thumbnail-image[data-id="'+$('#delete_scan_id').val()+'"]').closest('li').remove();
+							reload_scans(null);
 						}
 					}
 				});
@@ -200,16 +199,6 @@ $(document).ready(function() {
 			return;
 		}
 
-		var scan_ids = { scans: [] }
-		var category_ids = { category_id: [] };
-
-		$('input[type="hidden"][name="scans[]"]').map(function() {
-			if (!$(this).is(':disabled')) {
-				scan_ids['scans'].push($(this).val());
-				category_ids['category_id'].push($(this).closest('.thumbnail').next('select').children('option:selected').val());
-			}
-		});
-
 		$('.upload-status').show();
 
 		$('#clinical-form').ajaxSubmit({
@@ -221,38 +210,7 @@ $(document).ready(function() {
 					$('.progress-bar').width('100%');
 					$('.upload-status').text('Done!');
 
-					var data = $.param(scan_ids)+'&scans[]='+data['id']+'&'+$.param(category_ids)+'&category_id[]=&YII_CSRF_TOKEN='+YII_CSRF_TOKEN;
-
-					if (typeof(OE_event_id) != 'undefined') {
-						data += '&event_id=' + OE_event_id;
-					}
-
-					OphMiScan_upload_count += 1;
-
-					data += "&upload_count=" + OphMiScan_upload_count;
-
-					$.ajax({
-						type: 'POST',
-						url: baseUrl+'/OphMiScan/default/scans',
-						data: data,
-						success: function(html) {
-							$('.div_scans').html(html);
-
-							$('img.thumbnail').load(function() {
-								$(this).prev('img.thumbnail-loader').hide();
-								$(this).show();
-
-								var url = $(this).closest('.column').attr('data-attr-preview-link');
-
-								$(this).parent().zoom({
-									url: url
-								});
-							});
-
-							$('.progress-box').hide();
-							$('.upload-status').hide();
-						}
-					});
+					reload_scans(data['id']);
 				}
 			},
 			uploadProgress: OnProgress,
@@ -262,6 +220,56 @@ $(document).ready(function() {
 });
 
 var OphMiScan_upload_count = 0;
+
+function reload_scans(id)
+{
+	var scan_ids = { scans: [] }
+	var category_ids = { category_id: [] };
+
+	$('input[type="hidden"][name="scans[]"]').map(function() {
+		if (!$(this).is(':disabled')) {
+			scan_ids['scans'].push($(this).val());
+			category_ids['category_id'].push($(this).closest('.thumbnail').next('select').children('option:selected').val());
+		}
+	});
+
+	var data = $.param(scan_ids)+'&'+$.param(category_ids)+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN;
+
+	if (id) {
+		data += '&scans[]=&category_id[]=';
+	}
+
+	if (typeof(OE_event_id) != 'undefined') {
+		data += '&event_id=' + OE_event_id;
+	}
+
+	OphMiScan_upload_count += 1;
+
+	data += "&upload_count=" + OphMiScan_upload_count;
+
+	$.ajax({
+		type: 'POST',
+		url: baseUrl+'/OphMiScan/default/scans',
+		data: data,
+		success: function(html) {
+			$('.div_scans').html(html);
+
+			$('img.thumbnail').load(function() {
+				$(this).prev('img.thumbnail-loader').hide();
+				$(this).show();
+
+				var url = $(this).closest('.column').attr('data-attr-preview-link');
+
+				$(this).parent().zoom({
+					url: url
+				});
+			});
+
+			$('.progress-box').hide();
+			$('.upload-status').hide();
+		}
+	});
+}
 
 function beforeSubmit(){
 	var fsize = $('#FileInput')[0].files[0].size;
