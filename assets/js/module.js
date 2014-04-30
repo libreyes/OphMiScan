@@ -221,7 +221,7 @@ $(document).ready(function() {
 					$('.progress-bar').width('100%');
 					$('.upload-status').text('Done!');
 
-					var data = $.param(scan_ids)+'&'+$.param(category_ids)+'&YII_CSRF_TOKEN='+YII_CSRF_TOKEN;
+					var data = $.param(scan_ids)+'&scans[]='+data['id']+'&'+$.param(category_ids)+'&category_id[]=&YII_CSRF_TOKEN='+YII_CSRF_TOKEN;
 
 					if (typeof(OE_event_id) != 'undefined') {
 						data += '&event_id=' + OE_event_id;
