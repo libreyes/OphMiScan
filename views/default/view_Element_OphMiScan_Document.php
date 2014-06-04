@@ -36,7 +36,7 @@
 				<div class="data-label"><?php echo CHtml::encode($element->getAttributeLabel('description'))?>:</div>
 			</div>
 			<div class="large-10 column">
-				<div class="data-value"><?php echo CHtml::encode($element->description)?></div>
+				<div class="data-value"><?php echo $element->textWithLineBreaks('description')?></div>
 			</div>
 		</div>
 	</div>

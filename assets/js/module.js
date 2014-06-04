@@ -210,11 +210,12 @@ $(document).ready(function() {
 					$('.progress-bar').width('100%');
 					$('.upload-status').text('Done!');
 
+					$('#upload_field').val('');
 					reload_scans(data['id']);
 				}
 			},
 			uploadProgress: OnProgress,
-			resetForm: true
+			resetForm: false
 		});
 	});
 });
