@@ -25,17 +25,17 @@
 			There are no scanned documents available in the scan directory.
 		</div>
 	<?php } else {
-		echo $this->renderPartial('_pagination',array(
+		echo $this->renderPartial('../default/_pagination',array(
 			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
 			'class' => 'edit top',
 		));
 		for ($i=0; $i<ceil(count($element->scans)/Yii::app()->params['OphMiScan_thumbnails_per_page']); $i++) {
-			$this->renderPartial('_scans_page',array(
+			$this->renderPartial('../default/_scans_page',array(
 				'element' => $element,
 				'page' => $i,
 			));
 		}
-		echo $this->renderPartial('_pagination',array(
+		echo $this->renderPartial('../default/_pagination',array(
 			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
 			'class' => 'edit bottom',
 		))?>
