@@ -18,28 +18,28 @@
  */
 /* line 17, ../sass/components/_event.scss */
 .event {
-  border-color: #fdcc56;
+  border-color: #e8eb91;
 }
 /* line 19, ../sass/components/_event.scss */
 .event .event-content {
-  background-image: url('../img/watermark.png?1397139794');
+  background-image: url('../img/watermark.png?1407146229');
 }
 /* line 22, ../sass/components/_event.scss */
 .event .event-title {
-  background-image: url('../img/medium.png?1397139794');
+  background-image: url('../img/medium.png?1407145483');
 }
 
 /* line 29, ../sass/components/_event.scss */
 .scans .page .row {
-  padding-top: 1.25em;
+  padding-top: 1.25rem;
 }
 /* line 32, ../sass/components/_event.scss */
 .scans .page .column {
-  padding-bottom: 1.25em;
+  padding-bottom: 1.25rem;
 }
 /* line 35, ../sass/components/_event.scss */
 .scans .page .thumbnail {
-  padding-bottom: 0.625em;
+  padding-bottom: 0.625rem;
 }
 /* line 38, ../sass/components/_event.scss */
 .scans .page .thumbnail-image {
@@ -54,7 +54,7 @@
 }
 /* line 44, ../sass/components/_event.scss */
 .scans .page .category {
-  margin-bottom: 0.625em;
+  margin-bottom: 0.625rem;
 }
 /* line 47, ../sass/components/_event.scss */
 .scans .page .selected {
