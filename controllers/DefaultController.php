@@ -122,8 +122,11 @@ class DefaultController extends BaseEventTypeController {
 
 	public function actionScans()
 	{
-		if (!empty($_POST['event_id'])) {
+		if (!empty($_POST['event_id']) ) {
 			$element = Element_OphMiScan_Document::model()->find('event_id=?',array($_POST['event_id']));
+			if(is_null($element)){
+				$element = Element_OphMiScan_Document::model();
+			}
 		} else {
 			$element = new Element_OphMiScan_Document;
 		}

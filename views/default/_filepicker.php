@@ -16,27 +16,29 @@
  * @copyright Copyright (c) 2011-2012, OpenEyes Foundation
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
+$scans = $element->getScans();
 ?>
 <div class="scan-preview"></div>
 <div class="to-delete"></div>
 <div class="scans panel">
-	<?php if (empty($element->scans)) {?>
+	<?php if (empty( $scans )) {?>
 		<div>
 			There are no scanned documents available in the scan directory.
 		</div>
 	<?php } else {
 		echo $this->renderPartial('../default/_pagination',array(
-			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
+			'pages' => ceil(count($scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
 			'class' => 'edit top',
 		));
-		for ($i=0; $i<ceil(count($element->scans)/Yii::app()->params['OphMiScan_thumbnails_per_page']); $i++) {
+		for ($i=0; $i<ceil(count($scans)/Yii::app()->params['OphMiScan_thumbnails_per_page']); $i++) {
 			$this->renderPartial('../default/_scans_page',array(
 				'element' => $element,
 				'page' => $i,
 			));
 		}
 		echo $this->renderPartial('../default/_pagination',array(
-			'pages' => ceil(count($element->scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
+			'pages' => ceil(count($scans) / Yii::app()->params['OphMiScan_thumbnails_per_page']),
 			'class' => 'edit bottom',
 		))?>
 	<?php }?>
@@ -52,7 +54,7 @@
 			</p>
 			<button type="submit" class="secondary small">Delete scan</button>
 			<button type="submit" class="small warning">Cancel</button>
-			<img class="loader" src="<?php echo Yii::app()->createUrl('img/ajax-loader.gif')?>" alt="loading..." style="display: none;" />
+			<img class="loader" src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" alt="loading..." style="display: none;" />
 			<input type="hidden" id="delete_scan_id" name="delete_scan_id" value="" />
 		</div>
 	</div>
