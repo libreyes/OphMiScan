@@ -74,6 +74,7 @@ class Element_OphMiScan_Document extends BaseEventTypeElement
 	public function relations()
 	{
 		return array(
+			'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 			'files' => array(self::HAS_MANY, 'OphMiScan_Document_Scan', 'element_id', 'order' => 'display_order asc'),
 		);
 	}
