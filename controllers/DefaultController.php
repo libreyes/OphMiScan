@@ -55,6 +55,14 @@ class DefaultController extends BaseEventTypeController {
 	public function handleFileUpload()
 	{
 		if ($_FILES['upload_field']['error'] == 0) {
+			if (!in_array($_FILES['upload_field']['type'],Yii::app()->params['OphMiScan_allowed_filetypes'])) {
+				echo json_encode(array(
+					'status' => 'error',
+					'message' => 'This file type is not supported.',
+				));
+				return;
+			}
+
 			$scan = ProtectedFile::createFromFile($_FILES['upload_field']['tmp_name'], $_FILES['upload_field']['name']);
 
 			if (!$scan->save()) {
