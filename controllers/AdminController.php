@@ -23,7 +23,7 @@ class AdminController extends ModuleAdminController
 	{
 		$element = new Element_OphMiScan_Document;
 
-		Yii::app()->clientScript->registerScriptFile(Yii::app()->createUrl('js/jquery.zoom.js'));
+		Yii::app()->assetManager->registerScriptFile('js/jquery.zoom.js');
 
 		$this->render('../default/_filepicker',array(
 			'mode' => 'edit',
