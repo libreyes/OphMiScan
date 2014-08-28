@@ -26,11 +26,11 @@
 				<?php }else if ($i == $page * Yii::app()->params['OphMiScan_thumbnails_per_page']) {?>
 					<div class="row field-row">
 				<?php }?>
-					<div class="large-2 column<?php if (($i+1)/6 == 0 || ($i+1 >= count($element->scans))) {?> end<?php }?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>">
+					<div class="large-2 column<?php if (($i+1)/6 == 0 || ($i+1 >= count($element->scans))) {?> end<?php }?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600/'.$scan->file->name)?>">
 						<div class="thumbnail">
 							<div class="thumbnail-image<?php if ($element->isSelected($scan->id)) {?> selected<?php }?>">
 								<img class="thumbnail-loader" src="<?php echo Yii::app()->assetManager->createUrl('img/ajax-loader.gif')?>" />
-								<img class="thumbnail" src="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/200_160x160/'.$scan->file->name)?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600x800/'.$scan->file->name)?>" style="display: none" />
+								<img class="thumbnail" src="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/200x200/'.$scan->file->name)?>" data-attr-preview-link="<?php echo Yii::app()->createUrl('/file/view/'.$scan->file->id.'/600/'.$scan->file->name)?>" style="display: none" />
 								<input type="hidden" name="scans[]" value="<?php echo $scan->id?>"<?php if (!$element->isSelected($scan->id)) {?> disabled="disabled"<?php }?> />
 							</div>
 						</div>

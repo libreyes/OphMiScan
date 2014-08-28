@@ -42,7 +42,7 @@ $(document).ready(function() {
 			} else {
 				window.location.href = baseUrl+'/patient/episodes/'+et_patient_id;
 			}
-		} 
+		}
 		return false;
 	});
 
@@ -82,7 +82,7 @@ $(document).ready(function() {
 
 		new OpenEyes.UI.Dialog({
 			content: '<img src="'+url+'" />',
-			width: 600,
+			width: 620,
 			position: 'top',
 			dialogClass: 'dialog',
 		}).open();
@@ -277,9 +277,9 @@ function beforeSubmit(){
 	var ftype = $('#FileInput')[0].files[0].type;
 
 	switch(ftype) {
-		case 'image/png': 
-		case 'image/gif': 
-		case 'image/jpeg': 
+		case 'image/png':
+		case 'image/gif':
+		case 'image/jpeg':
 		case 'image/pjpeg':
 		case 'text/plain':
 		case 'text/html':
@@ -293,7 +293,7 @@ function beforeSubmit(){
 			$("#output").html("<b>"+ftype+"</b> Unsupported file type!");
 			return false
 	}
-		
+
 	if (fsize >5242880) {
 		alert("<b>"+fsize +"</b> Too big file! <br />File is too big, it should be less than 5 MB.");
 		return false

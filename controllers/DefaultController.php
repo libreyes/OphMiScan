@@ -36,7 +36,7 @@ class DefaultController extends BaseEventTypeController {
 
 	public function actionCreate()
 	{
-		if (!empty($_FILES['upload_field']['tmp_name'])) {
+		if (!empty($_FILES['upload_field'])) {
 			return $this->handleFileUpload();
 		}
 
@@ -45,7 +45,7 @@ class DefaultController extends BaseEventTypeController {
 
 	public function actionUpdate($id)
 	{
-		if (!empty($_FILES['upload_field']['tmp_name'])) {
+		if (!empty($_FILES['upload_field'])) {
 			return $this->handleFileUpload();
 		}
 
@@ -85,7 +85,7 @@ class DefaultController extends BaseEventTypeController {
 
 				// Generate thumbnail and preview images
 				$scan->getThumbnail("600x800");
-				$scan->getThumbnail("200_160x160");
+				$scan->getThumbnail("200x200");
 
 				echo json_encode(array(
 					'status' => 'success',
