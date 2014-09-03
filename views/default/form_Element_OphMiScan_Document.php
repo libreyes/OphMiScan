@@ -32,6 +32,7 @@
 			</div>
 			<div class="column large-8">
 				<input class="file-upload" type="file" id="upload_field" name="upload_field" />
+				<input type="hidden" id="do_upload" name="do_upload" value="0" />
 				<input type="submit" value="Upload" class="small" id="upload-file" />
 				<div class="progress-box">
 					<div class="progress-bar"></div>

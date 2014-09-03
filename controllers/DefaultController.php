@@ -36,7 +36,7 @@ class DefaultController extends BaseEventTypeController {
 
 	public function actionCreate()
 	{
-		if (!empty($_FILES['upload_field'])) {
+		if (!empty($_FILES['upload_field']) && $_POST['do_upload']) {
 			return $this->handleFileUpload();
 		}
 

@@ -6,6 +6,8 @@ $(document).ready(function() {
 		if (!$(this).hasClass('inactive')) {
 			disableButtons();
 
+			$('#do_upload').val(0);
+
 			$('#clinical-form').submit();
 			return true;
 		}
@@ -200,6 +202,8 @@ $(document).ready(function() {
 		}
 
 		$('.upload-status').show();
+
+		$('#do_upload').val(1);
 
 		$('#clinical-form').ajaxSubmit({
 			dataType: 'json',
